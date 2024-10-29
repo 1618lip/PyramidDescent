@@ -7,23 +7,28 @@
 
 using namespace std;
 
-// DFS to find a path from root to leaf with a product equal to target
+// DFS to find a path to leaf with product = target
 bool dfs(const vector<vector<int>>& tree, int level, int index, int current_product, int target, string& path) {
     int current_node = tree[level][index];
-    current_product *= current_node;  // Multiply the current product by the current node's value
+    current_product *= current_node;  // Multiply current product by the current node's value
 
     // If at leaf, check if product matches the target
     if (level == tree.size() - 1) {
         return current_product == target;
-    } else {
+    } 
+    else {
         // Try left child and add 'L' to the path
         path.push_back('L');
-        if (dfs(tree, level + 1, index, current_product, target, path)) return true;
+        if (dfs(tree, level + 1, index, current_product, target, path)) {
+            return true;
+        }
         path.pop_back(); // Backtrack if left path doesn't work
 
         // Try right child and add 'R' to the path
         path.push_back('R');
-        if (dfs(tree, level + 1, index + 1, current_product, target, path)) return true;
+        if (dfs(tree, level + 1, index + 1, current_product, target, path)) {
+            return true;
+        }
         path.pop_back(); // Backtrack if right path doesn't work
     }
 
@@ -61,11 +66,11 @@ void printTree(const vector<vector<int>>& tree, const string& path) {
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
-        cerr << "Usage: " << argv[0] << " <input file>" << endl;
+        cerr << "Wrong arguments \n Usage: " << argv[0] << " <input file>" << endl;
         return 1;
     }
 
-    ifstream infile(argv[1]);  // Open the input file
+    ifstream infile(argv[1]);  // Open input file
     if (!infile.is_open()) {
         cerr << "Error: could not open input file." << endl;
         return 1;
@@ -112,7 +117,8 @@ int main(int argc, char* argv[]) {
 
         // Print the tree with highlighted path
         printTree(tree, path);
-    } else {
+    } 
+    else {
         cout << "ERROR: No such path exists." << endl;
     }
 
